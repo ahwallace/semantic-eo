@@ -1,0 +1,48 @@
+[project]
+name = "semantic-eo"
+version = "0.1.0"
+description = "Text-based search EO data."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.0.7",
+    "coiled>=1.94.1",
+    "dask-gateway>=2025.4.0",
+    "dask[complete,distributed]>=2025.4.1",
+    "flox>=0.10.3",
+    "folium>=0.19.5",
+    "geopandas>=1.0.1",
+    "google-cloud>=0.34.0",
+    "google-cloud-storage>=3.1.0",
+    "langchain-openai>=0.3.14",
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.5",
+    "odc-stac>=0.3.11",
+    "omnicloudmask>=1.0.11",
+    "pillow>=11.2.1",
+    "planetary-computer>=1.0.0",
+    "pydantic>=2.11.3",
+    "pystac-client>=0.8.6",
+    "rasterio>=1.4.3",
+    "rioxarray>=0.19.0",
+    "setuptools>=80.3.0",
+    "shapely>=2.1.0",
+    "stackstac>=0.5.1",
+    "streamlit>=1.44.1",
+    "streamlit-folium>=0.25.0",
+    "xarray>=2025.3.1",
+    "xarray-spatial>=0.4.0",
+    "zarr>=3.0.7",
+]
+
+[dependency-groups]
+dev = [
+    "bokeh>=3.7.2",
+    "contextily>=1.6.2",
+    "graphviz>=0.20.3",
+    "ipykernel>=6.29.5",
+    "ruff>=0.11.7",
+]
+
+[tool.uv.sources]
+odc-stac = { git = "https://github.com/opendatacube/odc-stac/" }
