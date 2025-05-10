@@ -55,7 +55,6 @@ def s2_mosaic(aoi: dict[Any], start_date: str, end_date: str, resolution: int = 
     mosaic = xx[["B04", "B03", "B02"]].where(valid_masks)
     mosaic = mosaic.to_dataarray()
     mosaic = mosaic / 10000
-    # mosaic = (mosaic / mosaic.max(dim=("y", "x"))).clip(0, 1)
     mosaic = mosaic.chunk({"variable": 3, "time": -1, "y": 768, "x": 768})
     mosaic = mosaic.quantile(q=0.25, dim=["time"])
     mosaic = (mosaic * 3 * 255).clip(0, 255)
@@ -88,7 +87,6 @@ def mosaic_to_tif(data, aoi, out_path):
         width=W,
         count=3,
         crs="EPSG:2157",
-        # crs="EPSG:32629",
         transform=transform,
     )
 
@@ -98,7 +96,6 @@ def mosaic_to_tif(data, aoi, out_path):
 
 if __name__ == "__main__":
 
-    # from dask.distributed import LocalCluster
     import coiled
 
     # coiled.create_software_environment(
@@ -118,7 +115,6 @@ if __name__ == "__main__":
     #             "odc-geo",
     #             "planetary-computer",
     #             "pystac-client",
-    #             "google-cloud-storage",
     #         ],
     #     },
     # )
@@ -133,10 +129,6 @@ if __name__ == "__main__":
         software="semantic-eo-env",
     )
     client = cluster.get_client()
-
-    # cluster = LocalCluster()  # Fully-featured local Dask cluster
-    # client = cluster.get_client()
-    # client
 
     # Ireland bounding box in epsg 4326 (wgs84)
     # bounds_4326 = (-10.8182, 51.2163, -5.0919, 55.7091)
@@ -157,10 +149,8 @@ if __name__ == "__main__":
 
     data = s2_mosaic(aoi, start_date="2024-01-01", end_date="2024-04-01", resolution=10)
     data = data.compute().to_numpy()
-    # 10m: 50000 * 40000
-    # 100m: 5000 * 4000
 
-    out = "C:/Users/aidan/Documents/Projects/semantic-eo/s2_mosaic_10m_2024_q1.tif"
+    out = "./s2_mosaic_10m_2024_q1.tif"
     mosaic_to_tif(data, aoi, out)
 
     cluster.shutdown()
